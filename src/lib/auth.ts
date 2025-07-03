@@ -38,8 +38,7 @@ export const authOptions: NextAuthOptions = {
         return {
           id: user.id,
           email: user.email,
-          name: user.name,
-          hasPaid: user.hasPaid
+          name: user.name
         }
       }
     })
@@ -49,16 +48,12 @@ export const authOptions: NextAuthOptions = {
     signIn: '/auth/signin',
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.hasPaid = (user as any).hasPaid
-      }
+    async jwt({ token }) {
       return token
     },
     async session({ session, token }) {
       if (token && session.user) {
         ;(session.user as any).id = token.sub!
-        ;(session.user as any).hasPaid = token.hasPaid
       }
       return session
     }

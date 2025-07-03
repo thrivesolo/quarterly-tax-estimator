@@ -34,7 +34,6 @@ export async function POST(request: NextRequest) {
         // Find users with calculations for this quarter who haven't been reminded
         const usersToRemind = await prisma.user.findMany({
           where: {
-            hasPaid: true,
             taxCalculations: {
               some: {
                 quarter: quarterNum,
