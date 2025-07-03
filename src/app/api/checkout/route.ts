@@ -8,6 +8,13 @@ const PRODUCT_PRICE = 29.99 // One-time purchase price
 
 export async function POST(request: NextRequest) {
   try {
+    if (!stripe) {
+      return NextResponse.json(
+        { message: 'Payment system not configured' },
+        { status: 503 }
+      )
+    }
+
     const session = await getServerSession(authOptions)
     
     if (!session?.user || !(session.user as any).id || !session?.user?.email) {
